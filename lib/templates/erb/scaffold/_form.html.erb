@@ -1,0 +1,34 @@
+<%%= form_for(<%= singular_table_name %>) do |f| %>
+  <%% if <%= singular_table_name %>.errors.any? %>
+    <div id="error_explanation">
+      <h2><%%= pluralize(<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
+
+      <ul>
+      <%% <%= singular_table_name %>.errors.full_messages.each do |message| %>
+        <li><%%= message %></li>
+      <%% end %>
+      </ul>
+    </div>
+  <%% end %>
+
+<% attributes.each do |attribute| -%>
+  <fieldset class="form-group">
+<% if attribute.password_digest? -%>
+    <%%= f.label :password %>
+    <%%= f.password_field :password, class: "form-control" %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%%= f.label :password_confirmation %>
+    <%%= f.password_field :password_confirmation, class: "form-control" %>
+<% else -%>
+    <%%= f.label :<%= attribute.column_name %> %>
+    <%%= f.<%= attribute.field_type %> :<%= attribute.column_name %>, class: "form-control" %>
+<% end -%>
+  </fieldset>
+
+<% end -%>
+  <div class="actions">
+    <%%= f.submit "Submit", class: "btn btn-outline-primary" %>
+  </div>
+<%% end %>
