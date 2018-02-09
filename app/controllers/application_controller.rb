@@ -1,20 +1,26 @@
+# require 'exposed'
+
+
+
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  extend Exposer
+  # def self.expose(name, value = nil, decorate: false, guess_value: true, scope: :all)
+  #   Exposed.new(name, value, guess_value: guess_value, scope: scope).tap do |e|
+  #     define_method name do
+  #       e.call(self)
+  #     end
+  #     helper_method name
+  #     decorate(name) if decorate
+  #   end
+  # end
 
-  def self.expose(name, value = nil, decorate: false, guess_value: true, scope: :all)
-    Exposed.new(name, value, guess_value: guess_value, scope: scope).tap do |e|
-      define_method name do
-        e.call(self)
-      end
-      helper_method name
-      decorate(name) if decorate
-    end
-  end
-
-  def self.decorate(name)
-    define_method "decorated_#{name}" do
-      vname = "@decorated_#{name}"
-      instance_variable_get(vname) || instance_variable_set(vname, send(name).decorate)
-    end
-  end
+  # def self.decorate(name)
+  #   mname = "decorated_#{name}"
+  #   vname = "@#{mname}"
+  #   define_method mname do
+  #     instance_variable_get(vname) || instance_variable_set(vname, send(name).decorate)
+  #   end
+  #   helper_method mname
+  # end
 end

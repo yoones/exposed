@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  expose :categories
+  expose :categories, decorate: true
   expose :category
 
   def index

@@ -9,7 +9,7 @@
   </thead>
 
   <tbody>
-    <% categories.each do |category| %>
+    <% decorated_categories.each do |category| %>
       <tr>
         <td><%= category.name %></td>
         <td><%= link_to 'Show', category, class: 'btn btn-outline-primary' %></td>
