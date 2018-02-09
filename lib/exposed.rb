@@ -1,24 +1,24 @@
 class Exposed
-  attr_accessor :name, :value
-
   def initialize(name, value = nil, guess_value: true, scope: :all)
     @name = name
-    @decorated_name = "decorated_#{@name}"
-    @decorate = decorate
     @guess_value = guess_value
     @scope = scope
-    @value = value
+    @initial_value = value
   end
 
   def call(instance)
     @instance = instance
-    reinterpret_value
-    self
+    v = if initial_value.nil? && guess_value
+          (name.to_s == pluralized_name ? :collection : :record)
+        else
+          initial_value
+        end
+    reinterpret_value(v)
   end
 
   private
 
-  attr_reader :instance, :decorate, :guess_value, :scope
+  attr_reader :name, :value, :instance, :initial_value, :guess_value, :scope
 
   def singularized_name
     @singularized_name ||= name.to_s.singularize
@@ -32,16 +32,15 @@ class Exposed
     @klass ||= singularized_name.capitalize.constantize
   end
 
-  def reinterpret_value
-    @value = (name.to_s == pluralized_name ? :collection : :record) if value.nil? && guess_value
-    @value = if value.respond_to?(:call)
-      value.call
-    elsif value == :collection
+  def reinterpret_value(v)
+    if v.respond_to?(:call)
+      v.call
+    elsif v == :collection
       infer_collection
-    elsif value == :record
+    elsif v == :record
       infer_record
     else
-      value
+      v
     end
   end
 
