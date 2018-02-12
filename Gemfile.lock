@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/activerecord-hackery/ransack.git
+  revision: 7dbec585c6760c3ab5a687a007763f2c71f815a3
+  specs:
+    ransack (1.8.7)
+      actionpack (>= 3.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      i18n
+      polyamorous (~> 1.3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -135,6 +146,8 @@ GEM
     nio4r (2.2.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    polyamorous (1.3.3)
+      activerecord (>= 3.0)
     popper_js (1.12.9)
     public_suffix (3.0.1)
     puma (3.11.2)
@@ -260,6 +273,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   puma (~> 3.7)
   rails (~> 5.1.4)
+  ransack!
   rspec-mocks
   rspec-rails (~> 3.7)
   sass-rails (~> 5.0)
