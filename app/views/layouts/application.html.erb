@@ -9,6 +9,12 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+      <div class="mb-3">
+	<%= render partial: "layouts/partials/navbar" %>
+      </div>
+      <%= render partial: "layouts/partials/flash_messages" %>
+      <%= yield %>
+    </div>
   </body>
 </html>
