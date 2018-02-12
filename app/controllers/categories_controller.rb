@@ -1,8 +1,10 @@
 class CategoriesController < ApplicationController
-  expose :categories, decorate: true
+  expose :categories_search, -> { Category.ransack(params[:q]) }
+  expose :categories, -> { categories_search.result }
   expose :category
 
   def index
+    categories
   end
 
   def show

@@ -1,20 +1,28 @@
 
 module Exposer
-  def expose(name, value = nil, decorate: false, guess_value: true, scope: :all)
-    Exposed.new(name, value, guess_value: guess_value, scope: scope).tap do |e|
-      define_method name do
-        e.call(self)
+  def expose(name, value = nil, decorate: true, guess_value: true, scope: :all)
+    mname = name.to_sym
+    vname = "@#{mname}"
+    define_method name do
+      if instance_variable_defined?(vname)
+        instance_variable_get(vname).call(self)
+      else
+        instance_variable_set(vname, Exposed.new(mname, value, guess_value: guess_value, scope: scope))
       end
-      helper_method name
-      decorate(name) if decorate
     end
+    helper_method mname
+    self.decorate(mname) if decorate
   end
 
   def decorate(name)
-    mname = "decorated_#{name}"
+    mname = :"decorated_#{name}"
     vname = "@#{mname}"
     define_method mname do
-      instance_variable_get(vname) || instance_variable_set(vname, send(name).decorate)
+      if instance_variable_defined?(vname)
+        instance_variable_get(vname)
+      else
+        instance_variable_set(vname, send(name).decorate)
+      end
     end
     helper_method mname
   end
