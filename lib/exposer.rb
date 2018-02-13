@@ -5,9 +5,9 @@ module Exposer
     vname = :"@#{mname}"
     define_method name do
       if instance_variable_defined?(vname)
-        instance_variable_get(vname).call(self)
+        instance_variable_get(vname)
       else
-        instance_variable_set(vname, Exposed.new(mname, value, guess_value: guess_value, scope: scope))
+        instance_variable_set(vname, Exposed.new(mname, value, guess_value: guess_value, scope: scope).call(self))
       end
     end
     helper_method mname
