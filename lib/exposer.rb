@@ -2,7 +2,7 @@
 module Exposer
   def expose(name, value = nil, decorate: true, guess_value: true, scope: :all)
     mname = name.to_sym
-    vname = "@#{mname}"
+    vname = :"@#{mname}"
     define_method name do
       if instance_variable_defined?(vname)
         instance_variable_get(vname).call(self)
@@ -16,7 +16,7 @@ module Exposer
 
   def decorate(name)
     mname = :"decorated_#{name}"
-    vname = "@#{mname}"
+    vname = :"@#{mname}"
     define_method mname do
       if instance_variable_defined?(vname)
         instance_variable_get(vname)
